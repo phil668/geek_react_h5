@@ -1,9 +1,13 @@
+// 导入样式
+@import '~@/assets/style/hairline.scss';
 .login {
   :global {
     .box {
       width: 200px;
       height: 200px;
       background-color: skyblue;
+      border-top: 1px solid #000;
+      @include hairline(bottom, #000);
     }
   }
 }
