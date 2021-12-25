@@ -20,6 +20,7 @@ export default function Login() {
     http({
       url: '/authorizations',
       method: 'post',
+      data: value,
     }).then((res) => {
       console.log('res:', res)
     })
