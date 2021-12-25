@@ -1,5 +1,5 @@
 import styles from './index.module.scss'
-import { NavBar, Form, Input, List, Button } from 'antd-mobile'
+import { NavBar, Form, Input, List, Button, Toast } from 'antd-mobile'
 import { useHistory } from 'react-router'
 import { LoginForm } from '@/types/data'
 import { useDispatch } from 'react-redux'
@@ -10,10 +10,18 @@ export default function Login() {
   const dispatch = useDispatch()
 
   // 校验通过
-  const onFinish = (value: LoginForm) => {
-    console.log(value.code)
-    console.log(value.mobile)
-    dispatch(loginAction(value))
+  const onFinish = async (value: LoginForm) => {
+    await dispatch(loginAction(value))
+    // 能走到这里 说明是ok
+    Toast.show({
+      icon: 'success',
+      content: '登录成功',
+      duration: 300,
+      afterClose() {
+        // 跳转页面
+        history.push('/')
+      },
+    })
   }
   // 校验失败
   const onFinishFailed = () => {

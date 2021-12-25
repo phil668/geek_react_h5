@@ -9,6 +9,10 @@ function loginAction(data: LoginForm): RootThunkAction {
     const res = await login(data)
     console.log('res:', res)
     // 更新仓库的数据
+    dispatch({
+      type: 'login/login',
+      payload: res.data,
+    })
   }
 }
 

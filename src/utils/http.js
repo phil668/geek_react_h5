@@ -25,7 +25,8 @@ instance.interceptors.response.use(
     console.log('response-拦截器')
 
     // 对响应数据做点什么
-    return response
+    // 吞掉多余的data
+    return response.data
   },
   function (error) {
     // 对响应错误做点什么
