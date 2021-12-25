@@ -1,7 +1,9 @@
 import { Button, Tag } from 'antd-mobile'
+import style from './index.module.scss'
 function Login() {
   return (
-    <div>
+    <div className={style.login}>
+      <div className='box'></div>
       <Tag color='default'>Default</Tag>
       <Tag color='primary'>测试</Tag>
       <Tag color='success'>Success</Tag>
