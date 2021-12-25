@@ -1,24 +1,19 @@
 import styles from './index.module.scss'
 import { NavBar, Form, Input, List, Button } from 'antd-mobile'
 import { useHistory } from 'react-router'
-
-import http from '@/utils/http'
 import { LoginForm } from '@/types/data'
+import { useDispatch } from 'react-redux'
+import { loginAction } from '@/store/actions/login'
 
 export default function Login() {
   const history = useHistory()
+  const dispatch = useDispatch()
 
   // 校验通过
   const onFinish = (value: LoginForm) => {
     console.log(value.code)
     console.log(value.mobile)
-    http({
-      url: '/authorizations',
-      method: 'post',
-      data: value,
-    }).then((res) => {
-      console.log('res:', res)
-    })
+    dispatch(loginAction(value))
   }
   // 校验失败
   const onFinishFailed = () => {
