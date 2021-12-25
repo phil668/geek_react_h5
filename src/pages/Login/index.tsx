@@ -2,6 +2,8 @@ import styles from './index.module.scss'
 import { NavBar, Form, Input, List, Button } from 'antd-mobile'
 import { useHistory } from 'react-router'
 
+import http from '@/utils/http'
+
 // 定义类型
 type FormData = {
   mobile: string
@@ -15,6 +17,12 @@ export default function Login() {
   const onFinish = (value: FormData) => {
     console.log(value.code)
     console.log(value.mobile)
+    http({
+      url: '/authorizations',
+      method: 'post',
+    }).then((res) => {
+      console.log('res:', res)
+    })
   }
   // 校验失败
   const onFinishFailed = () => {
