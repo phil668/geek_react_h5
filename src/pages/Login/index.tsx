@@ -3,18 +3,13 @@ import { NavBar, Form, Input, List, Button } from 'antd-mobile'
 import { useHistory } from 'react-router'
 
 import http from '@/utils/http'
-
-// 定义类型
-type FormData = {
-  mobile: string
-  code: string
-}
+import { LoginForm } from '@/types/data'
 
 export default function Login() {
   const history = useHistory()
 
   // 校验通过
-  const onFinish = (value: FormData) => {
+  const onFinish = (value: LoginForm) => {
     console.log(value.code)
     console.log(value.mobile)
     http({
