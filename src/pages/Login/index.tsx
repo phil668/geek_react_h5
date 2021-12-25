@@ -1,24 +1,32 @@
-import { Button, Tag } from 'antd-mobile'
-import style from './index.module.scss'
-function Login() {
+import styles from './index.module.scss'
+import { NavBar, Form, Input, List, Button } from 'antd-mobile'
+import { useHistory } from 'react-router'
+export default function Login() {
+  const history = useHistory()
   return (
-    <div className={style.login}>
-      <div className='box'></div>
-      <Tag color='default'>Default</Tag>
-      <Tag color='primary'>测试</Tag>
-      <Tag color='success'>Success</Tag>
-      <Tag color='warning'>Warning</Tag>
-      <Tag color='danger'>Danger</Tag>
-      <Button
-        onClick={() => {
-          console.log('么么哒!')
-        }}
-        color='primary'
-      >
-        Primary
-      </Button>
+    <div className={styles.root}>
+      {/* 导航 */}
+      <NavBar onBack={() => history.go(-1)}></NavBar>
+
+      {/* 表单 */}
+      <div className='login-form'>
+        <h2 className='title'>账号登录</h2>
+        <Form>
+          <Form.Item className='login-item'>
+            <Input placeholder='请输入用户名'></Input>
+          </Form.Item>
+          <List.Item className='login-code-extra' extra={<span className='code-extra'>发送验证码</span>}>
+            <Form.Item className='login-item'>
+              <Input placeholder='请输入验证码'></Input>
+            </Form.Item>
+          </List.Item>
+          <Form.Item>
+            <Button color='primary' block className='login-submit'>
+              登录
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   )
 }
-
-export default Login
