@@ -1,3 +1,4 @@
+import { Toast } from 'antd-mobile'
 import axios from 'axios'
 
 // 创建请求对象
@@ -26,9 +27,14 @@ instance.interceptors.response.use(
 
     // 对响应数据做点什么
     // 吞掉多余的data
-    return response.data
+    return response
   },
   function (error) {
+    if (!error.response) {
+      Toast.show('Service Error')
+      return Promise.reject(error)
+    }
+    Toast.show(error.response.data.message)
     // 对响应错误做点什么
     return Promise.reject(error)
   }

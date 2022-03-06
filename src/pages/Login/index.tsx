@@ -1,13 +1,20 @@
+import { useRef, useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import { NavBar, Form, Input, List, Button, Toast } from 'antd-mobile'
 import { useHistory } from 'react-router'
 import { LoginForm } from '@/types/data'
 import { useDispatch } from 'react-redux'
 import { loginAction } from '@/store/actions/login'
+import { InputRef } from 'antd-mobile/es/components/input'
+import { getSmsCode } from '@/api'
 
 export default function Login() {
   const history = useHistory()
   const dispatch = useDispatch()
+  const [form] = Form.useForm()
+  const input = useRef<InputRef>(null)
+  const [time, setTime] = useState(0)
+  let timerId: NodeJS.Timeout
 
   // 校验通过
   const onFinish = async (value: LoginForm) => {
@@ -28,6 +35,31 @@ export default function Login() {
     console.log('onFinishFailed')
   }
 
+  // getCode
+  const getCode = async () => {
+    try {
+      const res = await form.validateFields(['mobile'])
+      const code = await getSmsCode(res.mobile)
+      setTime(59)
+      timerId = setInterval(() => {
+        setTime((time) => {
+          if (time === 0) {
+            clearInterval(timerId)
+            return 0
+          }
+          return time - 1
+        })
+      }, 1000)
+      console.log(code)
+    } catch (error) {
+      input.current?.focus()
+    }
+  }
+
+  useEffect(() => {
+    clearInterval(timerId)
+  })
+
   return (
     <div className={styles.root}>
       {/* 导航 */}
@@ -36,18 +68,37 @@ export default function Login() {
       {/* 表单 */}
       <div className='login-form'>
         <h2 className='title'>账号登录</h2>
-        <Form initialValues={{ mobile: '13911111111', code: '246810' }} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        <Form
+          initialValues={{ mobile: '13911111111', code: '246810' }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          form={form}
+        >
           <Form.Item
             name='mobile'
             rules={[
               { required: true, message: '请输入手机号' },
-              { pattern: /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/, message: '手机号格式有误' },
+              {
+                pattern:
+                  /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/,
+                message: '手机号格式有误',
+              },
             ]}
             className='login-item'
           >
-            <Input placeholder='请输入手机号'></Input>
+            <Input placeholder='请输入手机号' ref={input}></Input>
           </Form.Item>
-          <List.Item className='login-code-extra' extra={<span className='code-extra'>发送验证码</span>}>
+          <List.Item
+            className='login-code-extra'
+            extra={
+              <span
+                className='code-extra'
+                onClick={time === 0 ? getCode : undefined}
+              >
+                {time === 0 ? '发送验证码' : `${time}秒可再次获取`}
+              </span>
+            }
+          >
             <Form.Item
               name='code'
               rules={[
@@ -60,7 +111,12 @@ export default function Login() {
             </Form.Item>
           </List.Item>
           <Form.Item>
-            <Button type='submit' color='primary' block className='login-submit'>
+            <Button
+              type='submit'
+              color='primary'
+              block
+              className='login-submit'
+            >
               登录
             </Button>
           </Form.Item>

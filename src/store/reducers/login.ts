@@ -1,6 +1,7 @@
 import { LoginAction } from '@/types/store'
+import { getToken } from '@/utils/storage'
 
-function loginReducer(state = {}, action: LoginAction) {
+function loginReducer(state = getToken(), action: LoginAction) {
   switch (action.type) {
     case 'login/login':
       return action.payload
