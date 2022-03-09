@@ -1,5 +1,6 @@
 import { Toast } from 'antd-mobile'
 import axios from 'axios'
+import { hasToken, getToken, removeToken } from './storage'
 
 // 创建请求对象
 const instance = axios.create({
@@ -10,6 +11,9 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
   function (config) {
+    if (hasToken) {
+      config.headers.Authorization = `Bearer ${getToken().token}`
+    }
     console.log('request-拦截器')
     // 在发送请求之前做些什么
     return config
@@ -30,8 +34,14 @@ instance.interceptors.response.use(
     return response
   },
   function (error) {
+    console.dir(error)
     if (!error.response) {
       Toast.show('Service Error')
+      return Promise.reject(error)
+    }
+    if (error.response.status === 401) {
+      Toast.show('登录过期')
+      removeToken()
       return Promise.reject(error)
     }
     Toast.show(error.response.data.message)
