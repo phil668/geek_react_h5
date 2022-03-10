@@ -15,6 +15,10 @@ export type LoginAction = {
   type: 'login/login'
   payload: Token
 }
+export type LogoutAction = {
+  type: 'login/logout'
+  payload: Token
+}
 export type ProfileAction = {
   type: 'profile/profile'
   payload: Profile

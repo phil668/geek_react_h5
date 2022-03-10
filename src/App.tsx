@@ -10,6 +10,7 @@ import Layout from '@/pages/Layout/index'
 import Login from './pages/Login/index'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/types/store'
+import ProfileEdit from '@/pages/Profile/Edit'
 
 function App() {
   const token = useSelector((state: RootState) => {
@@ -38,6 +39,7 @@ function App() {
             }}
           ></Route>
           <Route path='/login' component={Login}></Route>
+          <Route path='/profile/edit' component={ProfileEdit}></Route>
         </Switch>
       </div>
     </Router>

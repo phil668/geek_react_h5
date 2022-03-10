@@ -10,6 +10,7 @@ const Profile = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const profileInfo = useSelector((state: RootState) => state.profile.profile)
+  const userInfo = useSelector((state: RootState) => state.profile.userInfo)
 
   useEffect(() => {
     dispatch(profileAction())
@@ -27,7 +28,7 @@ const Profile = () => {
               alt=''
             />
           </div>
-          <div className='user-name'>黑马先锋</div>
+          <div className='user-name'>{userInfo.name}</div>
           <Link to='/profile/edit'>
             个人信息 <Icon icon='iconbtn_right' />
           </Link>
@@ -44,19 +45,19 @@ const Profile = () => {
         {/* 动态 - 对应的这一行 */}
         <div className='count-list'>
           <div className='count-item'>
-            <p>1</p>
+            <p>{userInfo.art_count}</p>
             <p>动态</p>
           </div>
           <div className='count-item'>
-            <p>9</p>
+            <p>{userInfo.follow_count}</p>
             <p>关注</p>
           </div>
           <div className='count-item'>
-            <p>99</p>
+            <p>{userInfo.fans_count}</p>
             <p>粉丝</p>
           </div>
           <div className='count-item'>
-            <p>200</p>
+            <p>{userInfo.like_count}</p>
             <p>被赞</p>
           </div>
         </div>

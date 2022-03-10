@@ -1,3 +1,4 @@
+import { UserInfo } from './data.d'
 // 存放数据的类型
 
 import { AxiosPromise } from 'axios'
@@ -15,7 +16,7 @@ export type Token = {
 }
 
 // 服务器返回的用户信息数据类型
-export type Profile = {
+export type UserInfo = {
   art_count: number
   fans_count: number
   follow_count: number
@@ -25,12 +26,12 @@ export type Profile = {
   photo: string
 }
 
-export type UserInfo = {
+export type Profile = {
   id: string
   name: string
   photo: string
   mobile: string
-  gender: string
+  gender: number
   birthday: string
 }
 
