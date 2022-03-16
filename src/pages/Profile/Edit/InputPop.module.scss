@@ -1,0 +1,27 @@
+.submit {
+  color: red;
+}
+
+.infoWrapper {
+  padding: 10px;
+  :global {
+    .adm-text-area-wrapper {
+      border-radius: 10px;
+      background-color: #f7f8fa;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+  }
+}
+.nameWrapper {
+  padding: 10px;
+  :global {
+    .adm-input {
+      height: 40px;
+      border-radius: 10px;
+      background-color: #f7f8fa;
+      padding-left: 10px;
+      box-sizing: border-box;
+    }
+  }
+}

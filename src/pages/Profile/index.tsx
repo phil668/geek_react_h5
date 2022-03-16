@@ -9,7 +9,6 @@ import { profileAction, UserInfoAction } from '@/store/actions/profile'
 const Profile = () => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const profileInfo = useSelector((state: RootState) => state.profile.profile)
   const userInfo = useSelector((state: RootState) => state.profile.userInfo)
 
   useEffect(() => {

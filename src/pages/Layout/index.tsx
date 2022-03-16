@@ -7,7 +7,6 @@ import Home from '@/pages/Home'
 import Question from '@/pages/Question'
 import Video from '@/pages/Video'
 import Profile from '@/pages/Profile'
-import Edit from '@/pages/Profile/Edit'
 
 const tabs = [
   { path: '/home', icon: 'iconbtn_home', text: '首页' },

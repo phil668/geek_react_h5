@@ -2,8 +2,9 @@ import { profileAction } from '@/store/actions/profile'
 import { RootState } from '@/types/store'
 import { Button, List, DatePicker, NavBar } from 'antd-mobile'
 import classNames from 'classnames'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import InputPop, { InputPopProp } from './InputPop'
 
 import styles from './index.module.scss'
 
@@ -14,7 +15,13 @@ const ProfileEdit = () => {
   const profile = useSelector((state: RootState) => {
     return state.profile.profile
   })
-  console.log(profile)
+  const [showPopUp, setshowPopUp] = useState(false)
+  const [inputPopType, setInputPopType] = useState<InputPopProp['type']>('name')
+
+  const inputPopShow = (type: InputPopProp['type']): void => {
+    setshowPopUp(true)
+    setInputPopType(type)
+  }
 
   useEffect(() => {
     dispatch(profileAction())
@@ -22,6 +29,11 @@ const ProfileEdit = () => {
 
   return (
     <div className={styles.root}>
+      <InputPop
+        visible={showPopUp}
+        close={() => setshowPopUp(false)}
+        type={inputPopType}
+      ></InputPop>
       <div className='content'>
         {/* 标题 */}
         <NavBar
@@ -46,7 +58,11 @@ const ProfileEdit = () => {
             >
               头像
             </Item>
-            <Item arrow extra={profile.name}>
+            <Item
+              arrow
+              extra={profile.name}
+              onClick={() => inputPopShow('name')}
+            >
               昵称
             </Item>
             <Item
@@ -56,6 +72,9 @@ const ProfileEdit = () => {
                   {'未填写'}
                 </span>
               }
+              onClick={() => {
+                inputPopShow('intro')
+              }}
             >
               简介
             </Item>
