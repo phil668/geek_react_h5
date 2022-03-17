@@ -1,7 +1,7 @@
 import { login } from '@/api'
 import { LoginForm } from '@/types/data'
 import { RootThunkAction } from '@/types/store'
-import { setToken } from '@/utils/storage'
+import { removeToken, setToken } from '@/utils/storage'
 
 // 登录的 action生成器
 function loginAction(data: LoginForm): RootThunkAction {
@@ -17,4 +17,16 @@ function loginAction(data: LoginForm): RootThunkAction {
   }
 }
 
-export { loginAction }
+// 退出登录
+function logoutAction(): RootThunkAction {
+  return async (dispatch) => {
+    // 删除localstorage中的token
+    removeToken()
+    // 删除redux中的token
+    dispatch({
+      type: 'login/logout',
+    })
+  }
+}
+
+export { loginAction, logoutAction }

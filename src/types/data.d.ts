@@ -33,6 +33,7 @@ export type Profile = {
   mobile: string
   gender: number
   birthday: string
+  intro?: string
 }
 
 // axios的返回数据类型

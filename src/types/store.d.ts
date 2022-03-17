@@ -17,7 +17,6 @@ export type LoginAction = {
 }
 export type LogoutAction = {
   type: 'login/logout'
-  payload: Token
 }
 export type ProfileAction = {
   type: 'profile/profile'
@@ -28,7 +27,11 @@ export type UserInfoAction = {
   payload: UserInfo
 }
 
-export type RootAction = LoginAction | ProfileAction | UserInfoAction
+export type RootAction =
+  | LoginAction
+  | ProfileAction
+  | UserInfoAction
+  | LogoutAction
 
 // thunk中间件的类型
 export type RootThunkAction = ThunkAction<void, RootState, unknown, RootAction>

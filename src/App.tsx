@@ -11,6 +11,7 @@ import Login from './pages/Login/index'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/types/store'
 import ProfileEdit from '@/pages/Profile/Edit'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   const token = useSelector((state: RootState) => {
@@ -28,16 +29,9 @@ function App() {
               return <Redirect to='/home' />
             }}
           ></Route>
-          <Route
-            path='/home'
-            render={() => {
-              if (JSON.stringify(token) !== '{}') {
-                return <Layout />
-              } else {
-                return <Login />
-              }
-            }}
-          ></Route>
+          <PrivateRoute path='/home'>
+            <Layout></Layout>
+          </PrivateRoute>
           <Route path='/login' component={Login}></Route>
           <Route path='/profile/edit' component={ProfileEdit}></Route>
         </Switch>

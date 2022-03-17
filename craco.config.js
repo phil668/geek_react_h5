@@ -17,7 +17,9 @@ module.exports = {
       '@scss': path.resolve(__dirname, 'src', 'assets', 'style'),
     },
   },
-
+  devServer: {
+    host: '0.0.0.0',
+  },
   // 样式相关的配置
   style: {
     // postcss的配置

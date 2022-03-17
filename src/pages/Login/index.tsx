@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import { NavBar, Form, Input, List, Button, Toast } from 'antd-mobile'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import { LoginForm } from '@/types/data'
 import { useDispatch } from 'react-redux'
 import { loginAction } from '@/store/actions/login'
@@ -9,12 +9,15 @@ import { InputRef } from 'antd-mobile/es/components/input'
 import { getSmsCode } from '@/api'
 
 export default function Login() {
+  const location = useLocation<{ from: string }>()
   const history = useHistory()
   const dispatch = useDispatch()
   const [form] = Form.useForm()
   const input = useRef<InputRef>(null)
   const [time, setTime] = useState(0)
   let timerId: NodeJS.Timeout
+
+  console.log('location', location)
 
   // 校验通过
   const onFinish = async (value: LoginForm) => {
@@ -26,7 +29,12 @@ export default function Login() {
       duration: 300,
       afterClose() {
         // 跳转页面
-        history.push('/')
+        // 如果是因为登录过期回到的登录页，登录成功之后需要跳转回去
+        if (location.state?.from) {
+          history.push(location.state.from)
+        } else {
+          history.push('/')
+        }
       },
     })
   }
