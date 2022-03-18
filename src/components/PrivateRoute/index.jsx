@@ -1,5 +1,5 @@
 import { getToken } from '@/utils/storage'
-import { Route, Redirect, RouteProps } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 
 export default function PrivateRoute({ children, ...reset }) {
   console.log(getToken())

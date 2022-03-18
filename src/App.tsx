@@ -1,25 +1,15 @@
 import './App.scss'
 // 路由
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
+import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import Layout from '@/pages/Layout/index'
 import Login from './pages/Login/index'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/types/store'
 import ProfileEdit from '@/pages/Profile/Edit'
 import PrivateRoute from './components/PrivateRoute'
+import { history } from './utils/history'
 
 function App() {
-  const token = useSelector((state: RootState) => {
-    return state.login
-  })
-
   return (
-    <Router>
+    <Router history={history}>
       <div className='app'>
         <Switch>
           <Route
