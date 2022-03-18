@@ -6,6 +6,7 @@ import Login from './pages/Login/index'
 import ProfileEdit from '@/pages/Profile/Edit'
 import PrivateRoute from './components/PrivateRoute'
 import { history } from './utils/history'
+import Chat from './pages/Profile/Chat'
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
           ></Route>
           <PrivateRoute path='/home'>
             <Layout></Layout>
+          </PrivateRoute>
+          <PrivateRoute path='/chat'>
+            <Chat></Chat>
           </PrivateRoute>
           <Route path='/login' component={Login}></Route>
           <Route path='/profile/edit' component={ProfileEdit}></Route>
