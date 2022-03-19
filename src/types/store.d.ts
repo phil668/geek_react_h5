@@ -1,3 +1,4 @@
+import { channel } from './data.d'
 import { UserInfoAction } from './store.d'
 // 保存Redux的类型
 
@@ -26,12 +27,17 @@ export type UserInfoAction = {
   type: 'profile/user'
   payload: UserInfo
 }
+export type channelAction = {
+  type: 'home/saveUserChannel'
+  payload: channel[]
+}
 
 export type RootAction =
   | LoginAction
   | ProfileAction
   | UserInfoAction
   | LogoutAction
+  | channelAction
 
 // thunk中间件的类型
 export type RootThunkAction = ThunkAction<void, RootState, unknown, RootAction>

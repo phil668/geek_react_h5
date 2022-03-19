@@ -1,6 +1,6 @@
 import { Toast } from 'antd-mobile'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
-import { hasToken, getToken } from './storage'
+import { getToken } from './storage'
 import { history } from './history'
 import store from '@/store'
 import { loginMutation, logout } from '@/store/actions/login'
@@ -14,7 +14,7 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
   function (config: AxiosRequestConfig<any>) {
-    if (hasToken()) {
+    if (JSON.stringify(getToken()) !== '{}') {
       config!.headers!.Authorization = `Bearer ${getToken().token}`
     }
     console.log('request-拦截器')

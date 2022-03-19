@@ -36,6 +36,12 @@ export type Profile = {
   intro?: string
 }
 
+// 服务器返回的频道数据
+export type channel = {
+  id: number
+  name: string
+}
+
 // axios的返回数据类型
 export interface MyAxiosPromise<T>
   extends AxiosPromise<{ data: T; message: string }> {}
