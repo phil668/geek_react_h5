@@ -1,7 +1,11 @@
 import { Tabs } from 'antd-mobile'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { userChannelAction } from '@/store/actions/home'
+import {
+  activeIdAction,
+  allChannelAction,
+  userChannelAction,
+} from '@/store/actions/home'
 import { RootState } from '@/types/store'
 import styles from './index.module.scss'
 import Icon from '@/components/Icon'
@@ -11,10 +15,14 @@ export default function Home() {
   const dispatch = useDispatch()
   const channels = useSelector((state: RootState) => state.home.userChannels)
   const [showCh, setShowCh] = useState<boolean>(false)
+  const activeId = useSelector((state: RootState) => {
+    return state.home.activeId
+  })
 
   useEffect(() => {
     async function fetch() {
       await dispatch(userChannelAction())
+      await dispatch(allChannelAction())
     }
     fetch()
   }, [dispatch])
@@ -23,9 +31,18 @@ export default function Home() {
     setShowCh(false)
   }
 
+  const changeActive = (key: string) => {
+    dispatch(activeIdAction(Number(key)))
+  }
+
   return (
     <div className={styles.root}>
-      <Tabs activeLineMode='fixed' className='tabs' defaultActiveKey='1'>
+      <Tabs
+        activeLineMode='fixed'
+        className='tabs'
+        activeKey={activeId + ''}
+        onChange={changeActive}
+      >
         {channels.map((c) => {
           return (
             <Tabs.Tab title={c.name} key={c.id}>

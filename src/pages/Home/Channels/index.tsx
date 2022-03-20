@@ -1,8 +1,11 @@
 import classnames from 'classnames'
-
 import Icon from '@/components/Icon'
 import styles from './index.module.scss'
 import { Popup } from 'antd-mobile'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/types/store'
+import _ from 'lodash'
+import { activeIdAction } from '@/store/actions/home'
 
 type ChannelsPopType = {
   visible: boolean
@@ -10,6 +13,12 @@ type ChannelsPopType = {
 }
 
 const Channels = ({ visible, close }: ChannelsPopType) => {
+  const channel = useSelector((state: RootState) => state.home)
+  const recommendChannel = useSelector((state: RootState) => {
+    return _.differenceBy(state.home.userChannels, state.home.allChannels)
+  })
+  const dispatch = useDispatch()
+
   return (
     <Popup
       position='left'
@@ -31,11 +40,24 @@ const Channels = ({ visible, close }: ChannelsPopType) => {
               <span className='channel-item-edit'>编辑</span>
             </div>
             <div className='channel-list'>
+              {channel.userChannels.map((item, index) => {
+                return (
+                  <span
+                    className={classnames('channel-list-item', {
+                      selected: index === channel.activeId,
+                    })}
+                    key={item.id}
+                    onClick={() => {
+                      dispatch(activeIdAction(index))
+                      close()
+                    }}
+                  >
+                    {item.name}
+                    <Icon icon='iconbtn_tag_close' />
+                  </span>
+                )
+              })}
               {/* 选中时，添加类名 selected */}
-              <span className={classnames('channel-list-item')}>
-                推荐
-                <Icon icon='iconbtn_tag_close' />
-              </span>
             </div>
           </div>
 
@@ -45,7 +67,13 @@ const Channels = ({ visible, close }: ChannelsPopType) => {
               <span className='channel-item-title-extra'>点击添加频道</span>
             </div>
             <div className='channel-list'>
-              <span className='channel-list-item'>+ HTML</span>
+              {recommendChannel.map((item) => {
+                return (
+                  <span key={item.id} className='channel-list-item'>
+                    + {item.name}
+                  </span>
+                )
+              })}
             </div>
           </div>
         </div>

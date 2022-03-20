@@ -27,10 +27,19 @@ export type UserInfoAction = {
   type: 'profile/user'
   payload: UserInfo
 }
-export type channelAction = {
-  type: 'home/saveUserChannel'
-  payload: channel[]
-}
+export type channelAction =
+  | {
+      type: 'home/saveUserChannel'
+      payload: channel[]
+    }
+  | {
+      type: 'home/saveAllChannel'
+      payload: channel[]
+    }
+  | {
+      type: 'home/saveActiveId'
+      payload: number
+    }
 
 export type RootAction =
   | LoginAction

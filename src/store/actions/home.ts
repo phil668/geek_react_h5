@@ -1,4 +1,4 @@
-import { getUserChannel } from '@/api/home'
+import { getUserChannel, getAllChannel } from '@/api/home'
 import { RootThunkAction } from '@/types/store'
 import { getToken, setChannels, getChannels } from '@/utils/storage'
 
@@ -29,5 +29,26 @@ export function userChannelAction(): RootThunkAction {
         })
       }
     }
+  }
+}
+
+// 获取全部频道
+export function allChannelAction(): RootThunkAction {
+  return async (dispatch) => {
+    const res = await getAllChannel()
+    dispatch({
+      type: 'home/saveAllChannel',
+      payload: res.data.data.channels,
+    })
+  }
+}
+
+// 设置active频道id
+export function activeIdAction(id: number): RootThunkAction {
+  return async (dispatch) => {
+    dispatch({
+      type: 'home/saveActiveId',
+      payload: id,
+    })
   }
 }

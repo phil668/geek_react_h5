@@ -22,4 +22,7 @@ export default defineConfig({
       plugins: [vw],
     },
   },
+  server: {
+    host: '0.0.0.0',
+  },
 })

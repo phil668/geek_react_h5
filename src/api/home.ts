@@ -8,4 +8,10 @@ function getUserChannel(): MyAxiosPromise<{ channels: channel[] }> {
   })
 }
 
-export { getUserChannel }
+function getAllChannel(): MyAxiosPromise<{ channels: channel[] }> {
+  return http({
+    url: '/channels',
+  })
+}
+
+export { getUserChannel, getAllChannel }
