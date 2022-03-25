@@ -1,4 +1,10 @@
-import { getUserChannel, getAllChannel } from '@/api/home'
+import { channel } from './../../types/data.d'
+import {
+  getUserChannel,
+  getAllChannel,
+  delUserChannel,
+  addUserChannel,
+} from '@/api/home'
 import { RootThunkAction } from '@/types/store'
 import { getToken, setChannels, getChannels } from '@/utils/storage'
 
@@ -50,5 +56,38 @@ export function activeIdAction(id: number): RootThunkAction {
       type: 'home/saveActiveId',
       payload: id,
     })
+  }
+}
+
+// 删除频道
+export function delChannelAction(id: number): RootThunkAction {
+  return async (dispatch, getState) => {
+    // 如果登录了
+    if (JSON.stringify(getToken()) !== '{}') {
+      const res = await delUserChannel(id)
+    } else {
+      const { userChannels } = getState().home
+      userChannels.find((item) => {
+        return item.id !== id
+      })
+    }
+    await dispatch(userChannelAction())
+  }
+}
+
+// 添加频道
+export function addChannelAction(channel: {
+  id: number
+  name: string
+}): RootThunkAction {
+  return async (dispatch, getState) => {
+    // 如果登录了
+    if (JSON.stringify(getToken()) !== '{}') {
+      const res = await addUserChannel(channel.id)
+    } else {
+      const { userChannels } = getState().home
+      userChannels.push(channel)
+    }
+    await dispatch(userChannelAction())
   }
 }

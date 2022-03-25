@@ -1,11 +1,16 @@
 import classnames from 'classnames'
 import Icon from '@/components/Icon'
 import styles from './index.module.scss'
-import { Popup } from 'antd-mobile'
+import { Popup, Toast } from 'antd-mobile'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/types/store'
 import _ from 'lodash'
-import { activeIdAction } from '@/store/actions/home'
+import {
+  activeIdAction,
+  delChannelAction,
+  addChannelAction,
+} from '@/store/actions/home'
+import React, { EventHandler, ReactEventHandler, useState } from 'react'
 
 type ChannelsPopType = {
   visible: boolean
@@ -13,11 +18,32 @@ type ChannelsPopType = {
 }
 
 const Channels = ({ visible, close }: ChannelsPopType) => {
+  const [showClose, setShowClose] = useState<boolean>(false)
   const channel = useSelector((state: RootState) => state.home)
   const recommendChannel = useSelector((state: RootState) => {
-    return _.differenceBy(state.home.userChannels, state.home.allChannels)
+    return _.differenceBy(state.home.allChannels, state.home.userChannels, 'id')
   })
+  console.log(recommendChannel)
+
   const dispatch = useDispatch()
+
+  const editUserChannel = async (id: number) => {
+    // channel.userChannels.
+    await dispatch(delChannelAction(id))
+    Toast.show({
+      icon: 'success',
+      content: '删除成功',
+    })
+  }
+
+  // 添加频道
+  const addChannel = async (item: { id: number; name: string }) => {
+    await dispatch(addChannelAction(item))
+    Toast.show({
+      icon: 'success',
+      content: '添加成功',
+    })
+  }
 
   return (
     <Popup
@@ -37,7 +63,16 @@ const Channels = ({ visible, close }: ChannelsPopType) => {
             <div className='channel-item-header'>
               <span className='channel-item-title'>我的频道</span>
               <span className='channel-item-title-extra'>点击进入频道</span>
-              <span className='channel-item-edit'>编辑</span>
+              <span
+                className='channel-item-edit'
+                onClick={() => {
+                  setShowClose((c) => {
+                    return !c
+                  })
+                }}
+              >
+                编辑
+              </span>
             </div>
             <div className='channel-list'>
               {channel.userChannels.map((item, index) => {
@@ -53,7 +88,15 @@ const Channels = ({ visible, close }: ChannelsPopType) => {
                     }}
                   >
                     {item.name}
-                    <Icon icon='iconbtn_tag_close' />
+                    {showClose && (
+                      <Icon
+                        icon='iconbtn_tag_close'
+                        onClick={(e: React.MouseEvent) => {
+                          e.stopPropagation()
+                          editUserChannel(item.id)
+                        }}
+                      />
+                    )}
                   </span>
                 )
               })}
@@ -69,7 +112,13 @@ const Channels = ({ visible, close }: ChannelsPopType) => {
             <div className='channel-list'>
               {recommendChannel.map((item) => {
                 return (
-                  <span key={item.id} className='channel-list-item'>
+                  <span
+                    key={item.id}
+                    className='channel-list-item'
+                    onClick={() => {
+                      addChannel(item)
+                    }}
+                  >
                     + {item.name}
                   </span>
                 )

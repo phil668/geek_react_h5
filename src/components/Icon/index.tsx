@@ -1,6 +1,8 @@
+import React from 'react'
+
 type props = {
   icon: string
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
 }
 
 function Icon({ icon, onClick }: props) {

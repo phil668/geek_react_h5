@@ -7,7 +7,7 @@ import { loginMutation, logout } from '@/store/actions/login'
 
 // 创建请求对象
 const instance = axios.create({
-  baseURL: 'http://geek.itheima.net/v1_0/',
+  baseURL: '/api',
   timeout: 5000,
 })
 
@@ -17,7 +17,6 @@ instance.interceptors.request.use(
     if (JSON.stringify(getToken()) !== '{}') {
       config!.headers!.Authorization = `Bearer ${getToken().token}`
     }
-    console.log('request-拦截器')
     // 在发送请求之前做些什么
     return config
   },
@@ -30,8 +29,6 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   function (response) {
-    console.log('response-拦截器')
-
     // 对响应数据做点什么
     // 吞掉多余的data
     return response

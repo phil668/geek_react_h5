@@ -40,6 +40,10 @@ export type channelAction =
       type: 'home/saveActiveId'
       payload: number
     }
+  | {
+      type: 'home/delUserChannel'
+      payload: number
+    }
 
 export type RootAction =
   | LoginAction
