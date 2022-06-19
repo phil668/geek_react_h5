@@ -1,5 +1,5 @@
 function Question() {
-  return <div>question</div>
+  return <div>question2</div>
 }
 
 export default Question
